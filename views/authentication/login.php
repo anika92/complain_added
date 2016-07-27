@@ -2,12 +2,18 @@
 session_start();
 include_once('../../vendor/autoload.php');
 
+
 use App\Controller\Auth;
 use App\Message\Message;
 use App\Utility\Utility;
 
+if(!isset($_POST['userType'])){
+    $_POST['userType']="User";
+}
+
 $auth= new Auth();
 $status= $auth->logged_in();
+
 
 if($status == TRUE) {
     Message::message("logged in");
@@ -41,7 +47,7 @@ else{
             Utility::redirect('../../index.php');
         }
        else{
-            Utility::redirect('../index.php');
+            Utility::redirect('../../index.php');
         }
     }
 }

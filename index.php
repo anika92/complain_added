@@ -2,6 +2,7 @@
 session_start();
 include_once('vendor/autoload.php');
 use App\Message\Message;
+$_POST['name']="Bitm";
 ?>
 
 <!DOCTYPE html>
@@ -34,17 +35,15 @@ use App\Message\Message;
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="active">
-                    <a href="#about" >Home</a>
+                    <a href="index.php" >Home</a>
                 </li>
                 <li>
-                    <a href="#about">Missing Person</a>
+                    <a href="views/missing_person/missing_index.php">Missing Person</a>
                 </li>
                 <li>
-                    <a href="#services">Most Wanted</a>
+                    <a href="#">Most Wanted</a>
                 </li>
-                <li>
-                    <a href="#contact">Contact Us</a>
-                </li>
+
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Register As <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -54,11 +53,7 @@ use App\Message\Message;
                     </ul>
                 </li>
             </ul>
-            <ul class="dropdown-menu">Register As
-                <li><a href="#">HTML</a></li>
-                <li><a href="#">CSS</a></li>
-                <li><a href="#">JavaScript</a></li>
-            </ul>
+
         </div>
         <!-- /.navbar-collapse -->
     </div>
@@ -102,6 +97,7 @@ use App\Message\Message;
                 }
                 ?>
             </div>
+            <?php $_POST['userType']="User" ?>
             <form action="views/authentication/login.php" class="" method="post">
                 <div class="form-group">
                     <label>Email:</label>
@@ -112,16 +108,9 @@ use App\Message\Message;
                     <label for="pwd">Password:</label>
                     <input type="password" name="password" class="form-control" id="pwd" placeholder="Enter Password">
                 </div>
-                <div class="form-group">
-                    <label>Select User</label>
-                    <select name="userType" class="form-control" id="userType">
-                        <option>Select User</option>
-                        <option value="User">User</option>
-                        <option value="Police">Police</option>
-                        <option value="Admin">Admin</option>
-                    </select>
-                <?php $_POST['userType']="User" ?>
-                </div>
+
+
+
                 <button type="submit" class="btn btn-default">Submit</button>
 
                 <!-- <label><span class="style1">Username</span></label>

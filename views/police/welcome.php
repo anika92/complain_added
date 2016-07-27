@@ -49,10 +49,10 @@ if($status == TRUE) {
                         <a href="index.php" >Home</a>
                     </li>
                     <li>
-                        <a href="views/criminal_info/criminalInfo.php">Add Criminal</a>
+                        <a href="../../views/criminal_info/criminalInfo.php">Add Criminal</a>
                     </li>
                     <li>
-                        <a href="views/missing_person/missing_person.php">Add Missing Person</a>
+                        <a href="../../views/missing_person/missing_person.php">Add Missing Person</a>
                     </li>
                     <li>
                         <a href="views/authentication/logout.php">LogOut</a>
@@ -113,7 +113,7 @@ if($status == TRUE) {
                             <div class="col-md-3">
 
                                 <!-- Preview Image -->
-                                <img src="../../Resources/images/<?php echo $criminal_p->image?>" alt="image" height="100px" width="100px">
+                                <img src="../../Resources/images/criminals/<?php echo $criminal_p->image?>" alt="image" height="100px" width="100px">
                             </div>
                             <div class="col-md-7 ">
                                 <h3><?php echo $criminal_p->name?></h3><br />
@@ -175,6 +175,7 @@ if($status == TRUE) {
 
 
                         </ul>
+                        <hr>
                     <?php }?>
                 </div>
             </div>

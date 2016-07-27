@@ -78,13 +78,13 @@ class MissingPerson extends DB
             Message::message("<div class=\"alert alert-success\">
   <strong>Success!</strong> Sucessfully Registered, you can log in now.
 </div>");
-            Utility::redirect('../../index.php');
+            Utility::redirect('../../views/police/welcome.php');
 
         } else {
             Message::message("<div class=\"alert alert-danger\">
   <strong>Error!</strong> Data has not been stored successfully.
     </div>");
-            Utility::redirect('../../index.php');
+            Utility::redirect('../../views/police/welcome.php');
 
         }
     }

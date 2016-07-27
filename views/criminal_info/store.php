@@ -12,12 +12,9 @@ $_POST['multiple']=$comma_separated_value;
 
 if((isset($_FILES['image']))&& !empty($_FILES['image']['name'])){
     $imageName=time().$_FILES['image']['name'];
-
     $temporaryLocation= $_FILES['image']['tmp_name'];
     move_uploaded_file($temporaryLocation,'../../Resources/images/criminals/'. $imageName);
     $_POST['image']= $imageName;
-
-
 }
 $criminal_info = new CriminalInfo();
 

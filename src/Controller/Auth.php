@@ -53,13 +53,14 @@ class Auth extends DB
         if($this->usertype=="Police"){
             $db='police_info';
         }
-        if($this->usertype=="Users"){
+        else{
             $db='user_info';
         }
         $query = "SELECT * FROM $db WHERE `email`='" . $this->email . "' AND `password`='" . $this->password . "'";
 
         $result = mysqli_query($this->conn, $query);
         //$row= mysqli_fetch_assoc($result);
+
         if (mysqli_num_rows($result) > 0) {
             return TRUE;
         } else {

@@ -94,13 +94,13 @@ class RegPolice extends DB
             Message::message("<div class=\"alert alert-success\">
   <strong>Success!</strong> Sucessfully Registered, you can log in now.
 </div>");
-            Utility::redirect('../../views/index.php');
+            Utility::redirect('../../views/index1.php');
 
         } else {
             Message::message("<div class=\"alert alert-danger\">
   <strong>Error!</strong> Data has not been stored successfully.
     </div>");
-            Utility::redirect('../../index.php');
+            Utility::redirect('../../index1.php');
 
         }
     }
@@ -111,13 +111,13 @@ class RegPolice extends DB
             Message::message("<div class=\"alert alert-success\">
   <strong>Success!</strong> Sucessfully Registered, you can log in now.
 </div>");
-            Utility::redirect('../../index.php');
+            Utility::redirect('../../index1.php');
 
         } else {
             Message::message("<div class=\"alert alert-danger\">
   <strong>Error!</strong> Data has not been stored successfully.
     </div>");
-            Utility::redirect('../../index.php');
+            Utility::redirect('../../index1.php');
 
         }
     }

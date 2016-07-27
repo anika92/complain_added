@@ -8,7 +8,7 @@ $missing= new MissingPerson();
 if((isset($_FILES['image']))&& !empty($_FILES['image']['name'])){
     $imageName=time().$_FILES['image']['name'];
     $temporaryLocation= $_FILES['image']['tmp_name'];
-    move_uploaded_file($temporaryLocation,'../../Resources/Images/missing_persons/'. $imageName);
+    move_uploaded_file($temporaryLocation,'../../Resources/images/missing_persons/'. $imageName);
     $_POST['image']= $imageName;
 }
 
