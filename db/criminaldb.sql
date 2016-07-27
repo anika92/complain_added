@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 26, 2016 at 06:29 PM
--- Server version: 10.1.8-MariaDB
--- PHP Version: 5.6.14
+-- Generation Time: Jul 27, 2016 at 07:45 PM
+-- Server version: 10.1.13-MariaDB
+-- PHP Version: 5.5.35
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -28,6 +28,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -36,8 +37,10 @@ CREATE TABLE `admin` (
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`id`, `email`, `password`) VALUES
-(1, 'admin@mail.com', '81dc9bdb52d04dc20036dbd8313ed055	');
+INSERT INTO `admin` (`id`, `name`, `email`, `password`) VALUES
+(1, '', 'admin@mail.com', '81dc9bdb52d04dc20036dbd8313ed055	'),
+(2, 'admin2', 'admin@admin.com', '21232f297a57a5a743894a0e4a801fc3'),
+(3, 'admin2', 'admin@admin.com', '21232f297a57a5a743894a0e4a801fc3');
 
 -- --------------------------------------------------------
 
@@ -203,7 +206,8 @@ CREATE TABLE `user_info` (
 --
 
 INSERT INTO `user_info` (`user_id`, `name`, `email`, `nid`, `password`) VALUES
-(1, 'rony', 'a@gsf.com', 34324234, 'f29deaae8f77d04e811cea289e60fedd');
+(1, 'rony', 'a@gsf.com', 34324234, 'f29deaae8f77d04e811cea289e60fedd'),
+(2, 'demouser', 'user@mail.com', 11212, 'ee11cbb19052e40b07aac0ca060c23ee');
 
 -- --------------------------------------------------------
 
@@ -295,7 +299,7 @@ ALTER TABLE `user_profile`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `crimetable`
 --
@@ -330,7 +334,7 @@ ALTER TABLE `police_profile`
 -- AUTO_INCREMENT for table `user_info`
 --
 ALTER TABLE `user_info`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `user_profile`
 --

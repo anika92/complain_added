@@ -25,6 +25,7 @@ class Auth extends DB
         }
         if (array_key_exists('userType', $data)) {
             $this->usertype = $data['userType'];
+
         }
         return $this;
 
@@ -49,15 +50,18 @@ class Auth extends DB
         $db="";
         if($this->usertype=="Admin"){
             $db='admin';
+
         }
         if($this->usertype=="Police"){
             $db='police_info';
         }
-        else{
+        if($this->usertype=="User"){
             $db='user_info';
         }
-        $query = "SELECT * FROM $db WHERE `email`='" . $this->email . "' AND `password`='" . $this->password . "'";
 
+
+        $query = "SELECT * FROM $db WHERE `email`='" . $this->email . "' AND `password`='" . $this->password . "'";
+        
         $result = mysqli_query($this->conn, $query);
         //$row= mysqli_fetch_assoc($result);
 

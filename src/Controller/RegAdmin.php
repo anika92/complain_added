@@ -63,26 +63,25 @@ class RegAdmin extends DB
             $this->image=($data['image']);
         }
 
-
-
         return $this;
 
     }
 
     public function store(){
         $query="INSERT INTO `criminaldb`.`admin` (`name`, `email`, `password`) VALUES ('".$this->fullName."', '".$this->email."', '".$this->password."')";
+
         $result=mysqli_query($this->conn,$query);
         if($result){
             Message::message("<div class=\"alert alert-success\">
   <strong>Success!</strong> Sucessfully Registered, you can log in now.
 </div>");
-            Utility::redirect('../../index1.php');
+            Utility::redirect('../index.php');
 
         } else {
             Message::message("<div class=\"alert alert-danger\">
   <strong>Error!</strong> Data has not been stored successfully.
     </div>");
-            Utility::redirect('../../index1.php');
+            //Utility::redirect('../../index.php');
 
         }
     }
@@ -93,13 +92,13 @@ class RegAdmin extends DB
 //            Message::message("<div class=\"alert alert-success\">
 //  <strong>Success!</strong> Sucessfully Registered, you can log in now.
 //</div>");
-//            Utility::redirect('../../index1.php');
+//            Utility::redirect('../../index.php');
 //
 //        } else {
 //            Message::message("<div class=\"alert alert-danger\">
 //  <strong>Error!</strong> Data has not been stored successfully.
 //    </div>");
-//            Utility::redirect('../../index1.php');
+//            Utility::redirect('../../index.php');
 //
 //        }
 //    }

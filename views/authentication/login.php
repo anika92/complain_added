@@ -29,6 +29,7 @@ if($status == TRUE) {
 }
 else{
     $status= $auth->prepare($_POST)->is_registered();
+
     if($status){
         $_SESSION['user_email']=$_POST['email'];
         $_SESSION['userType']=$_POST['userType'];
