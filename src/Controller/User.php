@@ -80,19 +80,27 @@ class User extends DB
 
     public function store(){
         $query="INSERT INTO `criminaldb`.`user_info` (`name`, `email`, `nid`, `password`) VALUES ('".$this->fullName."', '".$this->email."', '".$this->n_id."', '".$this->password."')";
+
         $result=mysqli_query($this->conn,$query);
-        if($result){
-            Message::message("<div class=\"alert alert-success\">
+
+        if ($result) {
+            $lastid = mysqli_insert_id($this->conn);
+            $query1 = "INSERT INTO `criminaldb`.`user_profile` (`user_id`) VALUES ('" . $lastid . "')";
+           
+            $result1 = mysqli_query($this->conn, $query1);
+            if ($result1) {
+                Message::message("<div class=\"alert alert-success\">
   <strong>Success!</strong> Sucessfully Registered, you can log in now.
 </div>");
-            Utility::redirect('../../index.php');
+                Utility::redirect('../../index.php');
 
-        } else {
-            Message::message("<div class=\"alert alert-danger\">
+            } else {
+                Message::message("<div class=\"alert alert-danger\">
   <strong>Error!</strong> Data has not been stored successfully.
     </div>");
-            Utility::redirect('../../index.php');
+                Utility::redirect('../../index.php');
 
+            }
         }
     }
 

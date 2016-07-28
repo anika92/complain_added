@@ -61,7 +61,7 @@ class Auth extends DB
 
 
         $query = "SELECT * FROM $db WHERE `email`='" . $this->email . "' AND `password`='" . $this->password . "'";
-        
+
         $result = mysqli_query($this->conn, $query);
         //$row= mysqli_fetch_assoc($result);
 

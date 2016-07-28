@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 27, 2016 at 07:45 PM
+-- Generation Time: Jul 28, 2016 at 10:16 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.5.35
 
@@ -166,8 +166,10 @@ CREATE TABLE `police_info` (
 --
 
 INSERT INTO `police_info` (`p_id`, `name`, `email`, `password`, `police_code`, `nid`) VALUES
-(1, 'Nowshad', 's@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'c111', '12341234123412'),
-(2, 'Nowshad', 's@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'sadfsaf', '3412342314234');
+(3, 'Hamid', 'a@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'nadf', '34343434'),
+(4, 'Hamid', 'a@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'nadf', '34343434'),
+(5, 'Hamid', 'a@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'nadf', '34343434'),
+(6, 'Hamid', 'a@gmail.com', 'b59c67bf196a4758191e42f76670ceba', 'nadf', '34343434');
 
 -- --------------------------------------------------------
 
@@ -176,16 +178,24 @@ INSERT INTO `police_info` (`p_id`, `name`, `email`, `password`, `police_code`, `
 --
 
 CREATE TABLE `police_profile` (
+  `id` int(11) NOT NULL,
   `p_id` int(11) NOT NULL,
   `designation` varchar(20) NOT NULL,
   `thana` varchar(20) NOT NULL,
   `city` varchar(20) NOT NULL,
-  `address` varchar(20) NOT NULL,
-  `postal` int(20) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `postal` varchar(20) NOT NULL,
   `gender` varchar(20) NOT NULL,
-  `phone` int(255) NOT NULL,
+  `phone` int(11) NOT NULL,
   `image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `police_profile`
+--
+
+INSERT INTO `police_profile` (`id`, `p_id`, `designation`, `thana`, `city`, `address`, `postal`, `gender`, `phone`, `image`) VALUES
+(3, 6, '', '', '', '', '', '', 0, '');
 
 -- --------------------------------------------------------
 
@@ -207,7 +217,11 @@ CREATE TABLE `user_info` (
 
 INSERT INTO `user_info` (`user_id`, `name`, `email`, `nid`, `password`) VALUES
 (1, 'rony', 'a@gsf.com', 34324234, 'f29deaae8f77d04e811cea289e60fedd'),
-(2, 'demouser', 'user@mail.com', 11212, 'ee11cbb19052e40b07aac0ca060c23ee');
+(2, 'demouser', 'user@mail.com', 11212, 'ee11cbb19052e40b07aac0ca060c23ee'),
+(3, 'k', 'k@mail.com', 1111, '81dc9bdb52d04dc20036dbd8313ed055'),
+(4, 'hello', 'h@gmail.com', 2323232, 'b59c67bf196a4758191e42f76670ceba'),
+(5, 'hello', 'h@gmail.com', 2323232, 'b59c67bf196a4758191e42f76670ceba'),
+(6, 'hello', 'h@gmail.com', 2323232, '81dc9bdb52d04dc20036dbd8313ed055');
 
 -- --------------------------------------------------------
 
@@ -216,6 +230,7 @@ INSERT INTO `user_info` (`user_id`, `name`, `email`, `nid`, `password`) VALUES
 --
 
 CREATE TABLE `user_profile` (
+  `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `address` varchar(500) NOT NULL,
   `city` varchar(20) NOT NULL,
@@ -230,8 +245,9 @@ CREATE TABLE `user_profile` (
 -- Dumping data for table `user_profile`
 --
 
-INSERT INTO `user_profile` (`user_id`, `address`, `city`, `thana`, `postal`, `gender`, `phone`, `image`) VALUES
-(1, 'sdfsdfdsf', 'Dhaka', 'Double Muring', 99, 'Female', 2147483647, 'ttt.jpg');
+INSERT INTO `user_profile` (`id`, `user_id`, `address`, `city`, `thana`, `postal`, `gender`, `phone`, `image`) VALUES
+(1, 1, 'sdfsdfdsf', 'Dhaka', 'Double Muring', 99, 'Female', 2147483647, 'ttt.jpg'),
+(2, 6, '', '', '', 0, '', 0, '');
 
 --
 -- Indexes for dumped tables
@@ -277,7 +293,8 @@ ALTER TABLE `police_info`
 -- Indexes for table `police_profile`
 --
 ALTER TABLE `police_profile`
-  ADD PRIMARY KEY (`p_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `p_id` (`p_id`);
 
 --
 -- Indexes for table `user_info`
@@ -289,7 +306,8 @@ ALTER TABLE `user_info`
 -- Indexes for table `user_profile`
 --
 ALTER TABLE `user_profile`
-  ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -324,22 +342,22 @@ ALTER TABLE `missingtable`
 -- AUTO_INCREMENT for table `police_info`
 --
 ALTER TABLE `police_info`
-  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `police_profile`
 --
 ALTER TABLE `police_profile`
-  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `user_info`
 --
 ALTER TABLE `user_info`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `user_profile`
 --
 ALTER TABLE `user_profile`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- Constraints for dumped tables
 --
