@@ -1,7 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Anika
- * Date: 11/16/2016
- * Time: 10:56 PM
- */
+include_once ('../../vendor/autoload.php');
+use App\Controller\Complain;
+
+$complain = new Complain();
+$complain->prepare($_POST)->complainstore();
