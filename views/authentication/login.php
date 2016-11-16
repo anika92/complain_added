@@ -29,10 +29,12 @@ if($status == TRUE) {
 }
 else{
     $status= $auth->prepare($_POST)->is_registered();
+    $user= $auth->prepare($_POST)->getUser();
 
     if($status){
         $_SESSION['user_email']=$_POST['email'];
         $_SESSION['userType']=$_POST['userType'];
+        $_SESSION['user_name']=$user->name;
         if($_SESSION['userType']=="User"){
             Utility::redirect('../user/welcome.php');
         }

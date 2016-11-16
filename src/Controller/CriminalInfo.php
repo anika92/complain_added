@@ -15,6 +15,10 @@ class CriminalInfo extends DB
     public $gender = "";
     public $address = "";
     public $image = "";
+    public $station_id="";
+    public $release_date="";
+    public $filterByName="";
+    public $search="";
 
 
     public function __construct()
@@ -24,8 +28,13 @@ class CriminalInfo extends DB
 
     public function prepare($data = Array())
     {
+
         if (array_key_exists('id', $data)) {
             $this->id = $data['id'];
+
+        }
+        if (array_key_exists('name', $data)) {
+            $this->name = $data['name'];
         }
         if (array_key_exists('name', $data)) {
             $this->name = $data['name'];
@@ -33,12 +42,11 @@ class CriminalInfo extends DB
         if (array_key_exists('multiple', $data)) {
             $this->crimeType = $data['multiple'];
         }
-        if (array_key_exists('select', $data)) {
-            $this->criminalType = $data['select'];
+        if (array_key_exists('criminal', $data)) {
+            $this->criminalType = $data['criminal'];
         }
         if (array_key_exists('age', $data)) {
             $this->age = $data['age'];
-
         }
 
         if (array_key_exists('height', $data)) {
@@ -56,7 +64,19 @@ class CriminalInfo extends DB
         if (array_key_exists('image', $data)) {
             $this->image = $data['image'];
         }
+        if (array_key_exists('station_id', $data)) {
+            $this->station_id = $data['station_id'];
+        }
+        if (array_key_exists('date', $data)) {
+            $this->release_date = $data['date'];
+        }
+        if (array_key_exists("filterByName", $data)) {
+            $this->filterByName = $data['filterByName'];
+        }
 
+        if (array_key_exists("search", $data)) {
+            $this->search = $data['search'];
+        }
 
         return $this;
 
@@ -64,17 +84,22 @@ class CriminalInfo extends DB
 
     public function store()
     {
-        $query="INSERT INTO `criminal_info` ( `name`, `crime_type`, `c_t_type`, `age`, `height`, `description`, `gender`, `address`, `image`) VALUES ( '".$this->name."', '".$this->crimeType."', '".$this->criminalType."', '".$this->age."', '".$this->height."', '".$this->description."', '".$this->gender."', '".$this->address."', '".$this->image."');";
-//        $query="INSERT INTO `criminal_info` (`name`, `crime_type`, `c_t_type`, `age`, `height`, `description`, `gender`, `address`, `image`) VALUES ('".$this->name."', '".$this->crimeType."', '".$this->criminalType."', '".$this->age."', '".$this->height."', '".$this->description."', '".$this->gender."', '".$this->address."', '".$this->image."');";
+
+        $query="INSERT INTO `criminal_info` ( `name`, `crime_type`, `c_t_type`, `age`, `height`, `description`, `gender`, `address`,`station_id`,`release_date`,`image`) VALUES ( '".$this->name."', '".$this->crimeType."', '".$this->criminalType."', '".$this->age."', '".$this->height."', '".$this->description."', '".$this->gender."', '".$this->address."', '".$this->station_id."','".$this->release_date."','".$this->image."');";//        $query="INSERT INTO `criminal_info` (`name`, `crime_type`, `c_t_type`, `age`, `height`, `description`, `gender`, `address`, `image`) VALUES ('".$this->name."', '".$this->crimeType."', '".$this->criminalType."', '".$this->age."', '".$this->height."', '".$this->description."', '".$this->gender."', '".$this->address."', '".$this->image."');";
 //        $query = "INSERT INTO `criminaldb`.`criminal_info` ( `name`, `crime_type`, `criminal_type`, `age`, `height`, `description`, `gender`, `address`, `image`) VALUES ( '{$this->name}', '{$this->crimeType}', '{$this->criminalType}', '{$this->age}', '{$this->height}', '{$this->description}', '{$this->gender}', '{$this->address}', '{$this->image}');');";
 //        echo $query;
 //        die();
+       // echo $query;
+
         $result = mysqli_query($this->conn, $query);
 
         if ($result) {
             Message::message("<div class=\"alert alert-success\">
   <strong>Success!</strong> Criminal added successfull !!
 </div>");
+            if($_SESSION['userType']=="Admin"){
+                Utility::redirect('../../views/admin/crimeall.php');
+            }
             Utility::redirect('../../views/police/welcome.php');
 
         } else {
@@ -85,9 +110,35 @@ class CriminalInfo extends DB
 
         }
     }
-    public  function index(){
+    public function storeByAdmin()
+    {
+        $query="INSERT INTO `criminal_info` ( `name`, `crime_type`, `c_t_type`, `age`, `height`, `description`, `gender`, `address`, `image`) VALUES ( '".$this->name."', '".$this->crimeType."', '".$this->criminalType."', '".$this->age."', '".$this->height."', '".$this->description."', '".$this->gender."', '".$this->address."', '".$this->image."');";
+//        $query="INSERT INTO `criminal_info` (`name`, `crime_type`, `c_t_type`, `age`, `height`, `description`, `gender`, `address`, `image`) VALUES ('".$this->name."', '".$this->crimeType."', '".$this->criminalType."', '".$this->age."', '".$this->height."', '".$this->description."', '".$this->gender."', '".$this->address."', '".$this->image."');";
+//        $query = "INSERT INTO `criminaldb`.`criminal_info` ( `name`, `crime_type`, `criminal_type`, `age`, `height`, `description`, `gender`, `address`, `image`) VALUES ( '{$this->name}', '{$this->crimeType}', '{$this->criminalType}', '{$this->age}', '{$this->height}', '{$this->description}', '{$this->gender}', '{$this->address}', '{$this->image}');');";
+//        echo $query;
+//        die();
+        echo $query;
+
+        $result = mysqli_query($this->conn, $query);
+
+        if ($result) {
+            Message::message("<div class=\"alert alert-success\">
+  <strong>Success!</strong> Criminal added successfull !!
+</div>");
+
+            Utility::redirect('../../views/admin/crimeall.php');
+
+        } else {
+            Message::message("<div class=\"alert alert-danger\">
+  <strong>Error!</strong> Data has not been stored successfully.
+    </div>");
+            Utility::redirect('../../views/admin/crimeall');
+
+        }
+    }
+    public  function policeviewcrime(){
         $_allCriminalP=array();
-        $query= "SELECT * FROM `criminal_info` ";
+        $query= "SELECT police_station.station_name,criminal_info.c_id, criminal_info.name,criminal_info.crime_type,criminal_info.c_t_type,criminal_info.age,criminal_info.height,criminal_info.description,criminal_info.gender,criminal_info.address,criminal_info.release_date,criminal_info.image FROM criminal_info LEFT JOIN police_station ON criminal_info.station_id=police_station.station_id;";
 
         $result= mysqli_query($this->conn,$query);
         while($row=mysqli_fetch_object($result)){
@@ -95,4 +146,183 @@ class CriminalInfo extends DB
         }
         return $_allCriminalP;
     }
+    public  function index(){
+        $_allCriminalP=array();
+        $whereClause= " 1=1 ";
+        if(!empty($this->filterByName)) {
+            $whereClause .= " AND name LIKE '%".$this->filterByName."%'";
+        }
+
+        if(!empty($this->search)){
+            $whereClause .= " AND name LIKE '%".$this->search."%'";
+        }
+        $query= "SELECT * FROM criminal_info INNER JOIN police_station ON criminal_info.station_id=police_station.station_id  AND " . $whereClause . ";";
+
+        $result= mysqli_query($this->conn,$query);
+        while($row=mysqli_fetch_object($result)){
+            $_allCriminalP[]=$row;
+        }
+        return $_allCriminalP;
+    }
+    public  function indexcriminal(){
+        $_allCriminalP=array();
+        $query= "SELECT * FROM `criminaltable` ";
+        $result= mysqli_query($this->conn,$query);
+        while($row=mysqli_fetch_object($result)){
+            $_allCriminalP[]=$row;
+        }
+        return $_allCriminalP;
+    }
+    public  function indexcrime(){
+        $_allCriminalP=array();
+        $query= "SELECT * FROM `crimetable` ";
+        $result= mysqli_query($this->conn,$query);
+        while($row=mysqli_fetch_object($result)){
+            $_allCriminalP[]=$row;
+        }
+        return $_allCriminalP;
+    }
+    public function count(){
+        $query="SELECT COUNT(*) AS totalItem FROM `criminaldb`.`criminal_info` ";
+        $result=mysqli_query($this->conn,$query);
+        $row= mysqli_fetch_assoc($result);
+        return $row['totalItem'];
+    }
+    public function view(){
+        $query="SELECT * FROM `criminal_info` LEFT JOIN police_station  ON criminal_info.station_id=police_station.station_id WHERE `c_id`='".$this->id."'";
+
+        $result= mysqli_query($this->conn,$query);
+        $row= mysqli_fetch_object($result);
+        return $row;
+    }
+    public function update(){
+        if(!empty($this->image)) {
+            $query="UPDATE `criminal_info` SET `name` = '".$this->name."', `crime_type` = '".$this->crimeType."', `c_t_type` = '".$this->criminalType."', `age` = '".$this->age."', `height` = '".$this->height."', `description` = '".$this->description."', `gender` = '".$this->gender."', `address` = '".$this->address."', `station_id` = '".$this->station_id."',`release_date` = '".$this->release_date."',`image` = '".$this->image."'  WHERE `criminal_info`.`c_id` =".$this->id;
+
+
+        }else{
+            $query="UPDATE `criminal_info` SET `name` = '".$this->name."', `crime_type` = '".$this->crimeType."', `c_t_type` = '".$this->criminalType."', `age` = '".$this->age."', `height` = '".$this->height."', `description` = '".$this->description."', `gender` = '".$this->gender."', `address` = '".$this->address."', `station_id` = '".$this->station_id."',`release_date` = '".$this->release_date."' WHERE `criminal_info`.`c_id` =".$this->id;
+        }
+
+
+        $result= mysqli_query($this->conn,$query);
+        if($result){
+            Message::message("<div class=\"alert alert-success\">
+  <strong>Success!</strong> Sucessfully Updated Info.
+</div>");
+
+            if($_SESSION['userType']=="Admin"){
+                Utility::redirect('../../views/admin/crimeall.php');
+
+            }
+
+            Utility::redirect('../../views/criminal_info/criminalAll.php');
+        }
+        else {
+            Message::message("<div class=\"alert alert-danger\">
+  <strong>Error!</strong> Data has not been Updated.
+    </div>");
+            Utility::redirect('../../views/criminal_info/criminalAll.php');
+        }
+    }
+    public function updateByAdmin(){
+        if(!empty($this->image)) {
+            $query="UPDATE `criminal_info` SET `name` = '".$this->name."', `crime_type` = '".$this->crimeType."', `c_t_type` = '".$this->criminalType."', `age` = '".$this->age."', `height` = '".$this->height."', `description` = '".$this->description."', `gender` = '".$this->gender."', `address` = '".$this->address."', `station_id` = '".$this->station_id."',`release_date` = '".$this->release_date."',`image` = '".$this->image."'  WHERE `criminal_info`.`c_id` =".$this->id;
+
+
+        }else{
+            $query="UPDATE `criminal_info` SET `name` = '".$this->name."', `crime_type` = '".$this->crimeType."', `c_t_type` = '".$this->criminalType."', `age` = '".$this->age."', `height` = '".$this->height."', `description` = '".$this->description."', `gender` = '".$this->gender."', `address` = '".$this->address."', `station_id` = '".$this->station_id."',`release_date` = '".$this->release_date."' WHERE `criminal_info`.`c_id` =".$this->id;
+        }
+
+
+        $result= mysqli_query($this->conn,$query);
+        if($result){
+            Message::message("<div class=\"alert alert-success\">
+  <strong>Success!</strong> Sucessfully Updated Info.
+</div>");
+
+            Utility::redirect('../../views/admin/crimeall.php');
+        }
+        else {
+            Message::message("<div class=\"alert alert-danger\">
+  <strong>Error!</strong> Data has not been Updated.
+    </div>");
+            Utility::redirect('../../views/admin/crimeall.php');
+        }
+    }
+    public function mostWanted()
+    {
+        $_allCriminalP=array();
+        $query = "SELECT * FROM `criminal_info` LEFT JOIN police_station  ON criminal_info.station_id=police_station.station_id WHERE `c_t_type`='most wanted'";
+        /* echo $query;
+         die();*/
+        $result= mysqli_query($this->conn,$query);
+        while($row=mysqli_fetch_object($result)){
+            $_allCriminalP[]=$row;
+        }
+        return $_allCriminalP;
+
+    }
+    public function mostWantedview(){
+        $query="SELECT * FROM `criminal_info` LEFT JOIN police_station  ON criminal_info.station_id=police_station.station_id WHERE `c_id`=".$this->id;
+        /*   echo $query;
+           die();*/
+        $result= mysqli_query($this->conn,$query);
+        $row= mysqli_fetch_object($result);
+        return $row;
+    }
+
+    public function countCriminal(){
+        $query="SELECT COUNT(*) AS totalItem FROM `criminaldb`.`criminal_info` ";
+        $result=mysqli_query($this->conn,$query);
+        $row= mysqli_fetch_assoc($result);
+        return $row['totalItem'];
+    }
+    public function paginator($pageStartFrom=0,$Limit=5){
+        $_allcriminal = array();
+        $query="SELECT * FROM `criminal_info` LIMIT ".$pageStartFrom.",".$Limit;
+        $result = mysqli_query($this->conn, $query);
+        while ($row = mysqli_fetch_object($result)) {
+            $_allcriminal[] = $row;
+        }
+
+        return $_allcriminal;
+
+    }
+    public function allName(){
+        $_allBook= array();
+        $query="SELECT name FROM `criminal_info`";
+        $result= mysqli_query($this->conn,$query);
+        while($row=mysqli_fetch_assoc($result)){
+            $_allBook[]=$row['name'];
+        }
+        return $_allBook;
+    }
+
+    public function updatepolice(){
+        if(!empty($this->image)) {
+            $query="UPDATE `criminal_info` SET `name` = '".$this->name."', `crime_type` = '".$this->crimeType."', `c_t_type` = '".$this->criminalType."', `age` = '".$this->age."', `height` = '".$this->height."', `description` = '".$this->description."', `gender` = '".$this->gender."', `address` = '".$this->address."', `station_id` = '".$this->station_id."',`release_date` = '".$this->release_date."',`image` = '".$this->image."'  WHERE `criminal_info`.`c_id` =".$this->id;
+
+
+        }else{
+            $query="UPDATE `criminal_info` SET `name` = '".$this->name."', `crime_type` = '".$this->crimeType."', `c_t_type` = '".$this->criminalType."', `age` = '".$this->age."', `height` = '".$this->height."', `description` = '".$this->description."', `gender` = '".$this->gender."', `address` = '".$this->address."', `station_id` = '".$this->station_id."',`release_date` = '".$this->release_date."' WHERE `criminal_info`.`c_id` =".$this->id;
+        }
+
+        $result= mysqli_query($this->conn,$query);
+        if($result){
+            Message::message("<div class=\"alert alert-success\">
+  <strong>Success!</strong> Sucessfully Updated Info.
+</div>");
+
+            Utility::redirect('../../views/police/criminalAll.php');
+        }
+        else {
+            Message::message("<div class=\"alert alert-danger\">
+  <strong>Error!</strong> Data has not been Updated.
+    </div>");
+            Utility::redirect('../../views/police/criminalAll.php');
+        }
+    }
+
+
 }

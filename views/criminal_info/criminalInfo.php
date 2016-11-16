@@ -1,6 +1,7 @@
 <?php
 use App\Controller\CrimeType;
 use App\Controller\CriminalType;
+use App\Controller\RegAdmin;
 include_once ('../../vendor/autoload.php');
 $_crimetype=new CrimeType();
 $allCrimeType=$_crimetype->index();
@@ -9,7 +10,8 @@ $_criminaltype=new CriminalType();
 $allCriminalType=$_criminaltype->index();
 //\App\Utility\Utility::d($allCriminalType);
 
-
+$station=new RegAdmin();
+$all_station=$station->indexstation();
 
 ?>
 
@@ -31,31 +33,31 @@ $allCriminalType=$_criminaltype->index();
 
 
 
-	<form class="formoid-solid-blue" style="background-color:#FFFFFF;font-size:14px;font-family:'Roboto',Arial,Helvetica,sans-serif;color:#34495E;max-width:480px;min-width:150px" method="post" action="store.php" enctype="multipart/form-data">
-		<div class="title"><h2>Criminal Information</h2></div>
+<form class="formoid-solid-blue" style="background-color:#FFFFFF;font-size:14px;font-family:'Roboto',Arial,Helvetica,sans-serif;color:#34495E;max-width:480px;min-width:150px" method="post" action="store.php" enctype="multipart/form-data">
+	<div class="title"><h2>Criminal Information</h2></div>
 	<div class="element-input"><label class="title"></label><div class="item-cont"><input class="large" type="text" name="name" placeholder="Name"/><span class="icon-place"></span></div></div>
 
 	<div class="element-multiple"><label class="title"></label><div class="item-cont"><div class="large"><select data-no-selected="Nothing selected" name="multiple[]" multiple="multiple" >
 					<?php
 					foreach($allCrimeType as $crime_type){
 
-					?>
-					<option value="<?php echo $crime_type->crime_type ?>"><?php echo $crime_type->crime_type ?></option>
-				 <?php } ?> </select><span class="icon-place"></span></div></div></div>
+						?>
+						<option value="<?php echo $crime_type->crime_type ?>"><?php echo $crime_type->crime_type ?></option>
+					<?php } ?> </select><span class="icon-place"></span></div></div></div>
 	<div class="element-select"><label class="title"></label><div class="item-cont"><div class="large"><span><select name="select" >
 						<?php
 						foreach($allCriminalType as $criminal_type){
 
-						?>
-						<option value="<?php echo $criminal_type->c_t_type ?>"><?php echo $criminal_type->c_t_type ?></option>
+							?>
+							<option value="<?php echo $criminal_type->c_t_type ?>"><?php echo $criminal_type->c_t_type ?></option>
 
-						 <?php }?></select><i></i><span class="icon-place"></span></span></div></div></div>
-		<div class="element-number"><label class="title">
-			</label><div class="item-cont">
-				<input class="large" type="text"  name="age" placeholder="age" />
-				<span class="icon-place"></span>
-			</div>
+						<?php }?></select><i></i><span class="icon-place"></span></span></div></div></div>
+	<div class="element-number"><label class="title">
+		</label><div class="item-cont">
+			<input class="large" type="text"  name="age" placeholder="age" />
+			<span class="icon-place"></span>
 		</div>
+	</div>
 	<div class="element-number"><label class="title">
 		</label><div class="item-cont">
 			<input class="large" type="text"  name="height" placeholder="Height" />
@@ -74,13 +76,28 @@ $allCriminalType=$_criminaltype->index();
 			<span class="icon-place"></span>
 		</div>
 	</div>
+	<div class="element-select"><label class="title"></label><div class="item-cont"><div class="large"><span><select name="station_name" >
+						<?php
+						foreach($all_station as $p_station){
+
+							?>
+							<option value="<?php echo $p_station->station_id ?>"><?php echo $p_station->station_name ?></option>
+
+						<?php }?></select><i></i><span class="icon-place"></span></span></div></div></div>
+	<div class="element-date"><label class="title">
+		</label><div class="item-cont">
+			<input class="large" type="date"  name="date" placeholder="Release Date(If Release)" />
+			<span class="icon-place"></span>
+		</div>
+	</div>
+
 	<div class="element-phone">
 		<label class="title"></label>
 		<div class="item-cont">
 			<input class="large file_input" type="file"  name="image" placeholder="Upload image" value=""/>
 		</div>
 	</div>
-	<div class="submit"><input type="submit" value="Submit"/></div></form><p class="frmd"><a href="http://formoid.com/v29.php">jquery form</a> Formoid.com 2.9</p><script type="text/javascript" src="formoid_files/formoid1/formoid-solid-blue.js"></script>
+	<div class="submit"><input type="submit" value="Submit"/></div></form><p class="frmd"><a href="http://formoid.com/v29.php">jquery form</a> Formoid.com 2.9</p><script type="text/javascript" src="../../Resources/formoid_files/formoid1/formoid-solid-blue.js"></script>
 
 
 <script type="text/javascript" src="../../Resources/formoid_files/formoid1/formoid-solid-blue.js"></script>

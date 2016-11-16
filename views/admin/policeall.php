@@ -10,7 +10,53 @@ $status= $auth->logged_in();
 if($status == TRUE) {
 
     $police= new RegPolice();
-    $allpolice= $police->policelist();
+   // $allpolice= $police->policelist();
+    $allstation=$police->stationlist();
+    $fetch=$auth->fetchInfo();
+    $allp= $police->allName();
+    $commaSeparated= implode('","',$allp);
+
+    if(array_key_exists('itemPerPage',$_SESSION)) {
+        if (array_key_exists('itemPerPage', $_GET)) {
+            $_SESSION['itemPerPage'] = $_GET['itemPerPage'];
+        }
+    }
+    else{
+        $_SESSION['itemPerPage']=5;
+    }
+
+
+    $itemPerPage=$_SESSION['itemPerPage'];
+    $totalItem=$police->countpolice();
+    $totalPage=ceil($totalItem/$itemPerPage);
+//Utility::dd($itemPerPage);
+    $pagination="";
+
+
+    if(array_key_exists('pageNumber',$_GET)){
+        $pageNumber=$_GET['pageNumber'];
+    }else{
+        $pageNumber=1;
+    }
+    for($i=1;$i<=$totalPage;$i++){
+        $class=($pageNumber==$i)?"active":"";
+        $pagination.="<li class='$class'><a href='policeall.php?pageNumber=$i'>$i</a></li>";
+    }
+
+
+
+    $pageStartFrom=$itemPerPage*($pageNumber-1);
+
+    if(strtoupper($_SERVER['REQUEST_METHOD']=='GET')) {
+        $allpolice =$police->paginator($pageStartFrom,$itemPerPage);
+    }
+    if(strtoupper($_SERVER['REQUEST_METHOD']=='POST')) {
+        $allpolice =$police->prepare($_POST)->policelist();
+    }
+    if(strtoupper(($_SERVER['REQUEST_METHOD']=='GET')) && isset($_GET['search'])) {
+        $allpolice =$police->prepare($_GET)->policelist();
+    }
+
     ?>
 
     <!DOCTYPE html>
@@ -89,101 +135,8 @@ if($status == TRUE) {
                 <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-                        <!-- Messages: style can be found in dropdown.less-->
-                        <li class="dropdown messages-menu">
-                            <!-- Menu toggle button -->
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-envelope-o"></i>
-                                <span class="label label-success">4</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="header">You have 4 messages</li>
-                                <li>
-                                    <!-- inner menu: contains the messages -->
-                                    <ul class="menu">
-                                        <li><!-- start message -->
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <!-- User Image -->
-                                                    <img src="../../Resources/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                                                </div>
-                                                <!-- Message title and timestamp -->
-                                                <h4>
-                                                    Support Team
-                                                    <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                                                </h4>
-                                                <!-- The message -->
-                                                <p>Why not buy a new awesome theme?</p>
-                                            </a>
-                                        </li>
-                                        <!-- end message -->
-                                    </ul>
-                                    <!-- /.menu -->
-                                </li>
-                                <li class="footer"><a href="#">See All Messages</a></li>
-                            </ul>
-                        </li>
-                        <!-- /.messages-menu -->
 
-                        <!-- Notifications Menu -->
-                        <li class="dropdown notifications-menu">
-                            <!-- Menu toggle button -->
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-bell-o"></i>
-                                <span class="label label-warning">10</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="header">You have 10 notifications</li>
-                                <li>
-                                    <!-- Inner Menu: contains the notifications -->
-                                    <ul class="menu">
-                                        <li><!-- start notification -->
-                                            <a href="#">
-                                                <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                                            </a>
-                                        </li>
-                                        <!-- end notification -->
-                                    </ul>
-                                </li>
-                                <li class="footer"><a href="#">View all</a></li>
-                            </ul>
-                        </li>
-                        <!-- Tasks Menu -->
-                        <li class="dropdown tasks-menu">
-                            <!-- Menu Toggle Button -->
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-flag-o"></i>
-                                <span class="label label-danger">9</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="header">You have 9 tasks</li>
-                                <li>
-                                    <!-- Inner menu: contains the tasks -->
-                                    <ul class="menu">
-                                        <li><!-- Task item -->
-                                            <a href="#">
-                                                <!-- Task title and progress text -->
-                                                <h3>
-                                                    Design some buttons
-                                                    <small class="pull-right">20%</small>
-                                                </h3>
-                                                <!-- The progress bar -->
-                                                <div class="progress xs">
-                                                    <!-- Change the css width attribute to simulate progress -->
-                                                    <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                                                        <span class="sr-only">20% Complete</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <!-- end task item -->
-                                    </ul>
-                                </li>
-                                <li class="footer">
-                                    <a href="#">View all tasks</a>
-                                </li>
-                            </ul>
-                        </li>
+
                         <!-- User Account Menu -->
                         <li class="dropdown user user-menu">
                             <!-- Menu Toggle Button -->
@@ -191,7 +144,7 @@ if($status == TRUE) {
                                 <!-- The user image in the navbar-->
                                 <img src="../../Resources/img/user2-160x160.jpg" class="user-image" alt="User Image">
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                <span class="hidden-xs">Alexander Pierce</span>
+                                <span class="hidden-xs"><?php echo $fetch->name ?></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- The user image in the menu -->
@@ -199,32 +152,19 @@ if($status == TRUE) {
                                     <img src="../../Resources/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                                     <p>
-                                        Alexander Pierce - Web Developer
-                                        <small>Member since Nov. 2012</small>
+                                       <?php echo $fetch->name ?>
+
                                     </p>
                                 </li>
                                 <!-- Menu Body -->
-                                <li class="user-body">
-                                    <div class="row">
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Followers</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Sales</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Friends</a>
-                                        </div>
-                                    </div>
-                                    <!-- /.row -->
-                                </li>
+
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
                                         <a href="#" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="../authentication/logout.php" class="btn btn-default btn-flat">Sign out</a>
                                     </div>
                                 </li>
                             </ul>
@@ -249,7 +189,7 @@ if($status == TRUE) {
                         <img src="../../Resources/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>Alexander Pierce</p>
+                        <p><?php echo $fetch->name ?></p>
                         <!-- Status -->
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
@@ -280,11 +220,47 @@ if($status == TRUE) {
                         </a>
                         <ul class="treeview-menu">
                             <li><a href="policeall.php">View List</a></li>
-                            <li><a href="police.php">Add Police</a></li>
+                            <li><a href="station.php">Add Station</a></li>
+                            <li><a href="police_add.php">Add Police</a></li>
 
                         </ul>
                     </li>
-                    <li><a href="#"><i class="fa fa-link"></i> <span>Criminals</span></a></li>
+                    <li class="treeview">
+                        <a href="#"><i class="fa fa-link"></i> <span>Crime Control</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="crimeall.php">View List</a></li>
+                            <li><a href="../crime_type/crime.php">Manage Crime</a></li>
+                            <li><a href="criminal_add.php">Manage Criminals</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#"><i class="fa fa-link"></i> <span>Users</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="userall.php">View List</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#"><i class="fa fa-link"></i> <span>Missing People</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="missingall.php">View List</a></li>
+
+                        </ul>
+                    </li>
+
 
                 </ul>
                 <!-- /.sidebar-menu -->
@@ -297,25 +273,151 @@ if($status == TRUE) {
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    Page Header
-                    <small>Optional description</small>
+
+                    <small></small>
                 </h1>
 
             </section>
-
+            <div class="message">
+                <?php if((array_key_exists('message',$_SESSION)&& (!empty($_SESSION['message'])))) {
+                    echo Message::message();
+                }
+                ?>
+            </div>
             <!-- Main content -->
             <section class="content">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Data Table With Full Features</h3>
+                        <h3 class="box-title">All Polices</h3>
                     </div>
                     <!-- /.box-header -->
-                    <div class="box-body">
-                        <table id="policetable" class="table table-bordered table-striped">
 
-                        </table>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form role="form" action="policeall.php" method="post">
+                                    <div class="form-group">
+                                        <label>Filter by Name:</label>
+                                        <input type="text" name="filterByName" value="" id="filterName">
+                                        <button type="submit">Submit!</button>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <div class="col-md-6">
+                                <form role="form" action="policeall.php" method="get">
+                                    <div class="form-group">
+                                        <label>Search:</label>
+                                        <input type="text" name="search" value="">
+                                        <button type="submit">Search</button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+
+
+                        <form role="form">
+                            <div class="form-group">
+                                <label>item per page:</label>
+                                <select class="form-control" name="itemPerPage">
+                                    <option <?php if($itemPerPage==5 ){?>selected<?php  } ?>>5</option>
+                                    <option <?php if($itemPerPage==10 ){?>selected<?php } ?>>10</option>
+                                    <option <?php if($itemPerPage==15 ){?>selected<?php } ?>>15</option>
+                                    <option <?php if($itemPerPage==20 ){?>selected<?php } ?>>20</option>
+                                    <option <?php if($itemPerPage==25 ){?>selected<?php } ?>>25</option>
+
+                                </select>
+                                <button type="submit">Go!</button>
+
+                            </div>
+                        </form>
+                        <div class="table-responsive">
+                            <table id="policetable" class="table table-bordered table-striped">
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Police Code</th>
+                                    <th>Nid</th>
+                                    <th>Designation</th>
+                                    <th>Thana</th>
+                                    <th>Gender</th>
+                                    <th>Phone</th>
+                                    <th>Action</th>
+                                </tr>
+                                <?php
+                                foreach($allpolice as $info){
+
+                                    ?>
+
+                                    <tr>
+                                        <td><img src="../../Resources/images/polices/<?php echo $info->image ?>" alt="image" height="100px" width="100px"/></td>
+                                        <td><?php echo $info->name ?></td>
+                                        <td><?php echo $info->email ?></td>
+                                        <td><?php echo $info->police_code ?></td>
+                                        <td><?php echo $info->nid ?></td>
+                                        <td><?php echo $info->designation ?></td>
+                                        <td><?php echo $info->thana ?></td>
+                                        <td><?php echo $info->gender ?></td>
+                                        <td><?php echo $info->phone ?></td>
+                                        <td>
+                                            <a href="police_view.php?id=<?php echo $info->p_id ?>" class="btn bg-navy" role="button">View</a>
+                                            <a href="police_edit.php?id=<?php echo $info->p_id ?>" class="btn bg-teal" role="button">Edit</a>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
+                            </table>
+                        </div>
                     </div>
+                    <ul class="pagination">
+                        <?php if($pageNumber>1){?>
+                            <li><a href="policeall.php?pageNumber=<?php echo $pageNumber-1?>">Prev</a></li><?php };?>
+                        <?php echo $pagination?>
+                        <?php if($pageNumber<$totalPage){?>
+                            <li><a href="policeall.php?pageNumber=<?php echo $pageNumber+1?>">Next</a></li><?php };?>
+                    </ul>
                 </div>
+                <div class="row">
+                        <div class="col-md-6">
+                          <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">Station List</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <table id="stationtable" class="table table-bordered table-striped">
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Station Name</th>
+
+                                        <th>Action</th>
+                                    </tr>
+                                    <?php
+                                    foreach($allstation as $station){
+
+                                        ?>
+
+                                        <tr>
+                                            <td><?php echo $station->station_id ?></td>
+                                            <td><?php echo $station->station_name ?></td>
+
+                                            <td>
+                                                <a href="edit_station.php?id=<?php echo $station->station_id ?>" class="btn bg-teal" role="button">Edit</a>
+                                                <a href="station_delete.php?id=<?php echo $station->station_id ?>" class="btn btn-danger" id="delete" role="button">Delete</a>
+                                                  </td>
+                                        </tr>
+                                        <?php
+                                    }
+                                    ?>
+                                </table>
+                            </div>
+                       </div>
+                        </div></div>
+
+
 
             </section>
             <!-- /.content -->
@@ -419,7 +521,31 @@ if($status == TRUE) {
     <script src="../../Resources/bootstrap/js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../Resources/js/app.min.js"></script>
+    <script type="text/javascript">
 
+        $('.message').show().delay(2000).fadeOut();
+
+        $(document).ready(function(){
+
+
+            $("#delete").click(function(){
+                if (!confirm("Do you want to delete")){
+                    return false;
+                }
+            });
+        });
+    </script>
+    <script>
+        $( function() {
+            var availableTags = [
+                <?php echo '"'.$commaSeparated.'"' ?>
+            ];
+            $( "#filterName" ).autocomplete({
+                source: availableTags
+            });
+
+        } );
+    </script>
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
          Both of these plugins are recommended to enhance the
          user experience. Slimscroll is required when using the

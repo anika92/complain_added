@@ -71,6 +71,28 @@ class Auth extends DB
             return FALSE;
         }
     }
+    public function getUser()
+    {
+        $db="";
+        if($this->usertype=="Admin"){
+            $db='admin';
+
+        }
+        if($this->usertype=="Police"){
+            $db='police_info';
+        }
+        if($this->usertype=="User"){
+            $db='user_info';
+        }
+
+
+        $query = "SELECT * FROM $db WHERE `email`='" . $this->email . "' AND `password`='" . $this->password . "'";
+
+        $result = mysqli_query($this->conn, $query);
+        $row=mysqli_fetch_object($result);
+        return $row;
+
+    }
 
     public function logged_in()
     {
@@ -80,9 +102,41 @@ class Auth extends DB
             return FALSE;
         }
     }
+    public function fetchInfo(){
+        $db="";
+        if($_SESSION['userType']=="Admin"){
+            $db='admin';
+
+        }
+        if($_SESSION['userType']=="Police"){
+            $db='police_info';
+            $db2='police_profile';
+            $db_id='p_id';
+        }
+        if($_SESSION['userType']=="User"){
+            $db='user_info';
+            $db2='user_profile';
+            $db_id='user_id';
+        }
+        $status=$this->logged_in();
+        if($status){
+            if($db=="admin"){
+                $query = "SELECT * FROM $db WHERE `email`='" . $_SESSION['user_email'] . "' AND `name`='" . $_SESSION['user_name']. "'";
+
+            }
+            else{
+                $query = "SELECT * FROM $db INNER JOIN $db2 ON $db.$db_id=$db2.$db_id WHERE `email`='" . $_SESSION['user_email'] . "' AND `name`='" . $_SESSION['user_name']. "'";
+
+            }
+            $result = mysqli_query($this->conn, $query);
+            $row=mysqli_fetch_object($result);
+            return $row;
+        }
+    }
 
     public function log_out(){
         $_SESSION['user_email']="";
+        $_SESSION['user_name']="";
         return TRUE;
     }
 

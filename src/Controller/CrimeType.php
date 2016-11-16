@@ -32,18 +32,19 @@ class CrimeType extends DB
 
     public function store(){
         $query="INSERT INTO `criminaldb`.`crimetable` (`crime_type`) VALUES ( '{$this->crimeType}');";
+
         $result=mysqli_query($this->conn,$query);
         if($result){
             Message::message("<div class=\"alert alert-success\">
-  <strong>Success!</strong> Sucessfully Registered, you can log in now.
+  <strong>Success!</strong> Successfully Saved
 </div>");
-            Utility::redirect('../../index.php');
+            Utility::redirect('crime.php');
 
         } else {
             Message::message("<div class=\"alert alert-danger\">
   <strong>Error!</strong> Data has not been stored successfully.
     </div>");
-            Utility::redirect('../../index.php');
+            Utility::redirect('crime.php');
 
         }
     }
@@ -55,6 +56,53 @@ class CrimeType extends DB
             $_allCrime[]=$row;
         }
         return $_allCrime;
+    }
+    public function viewCrime(){
+
+        $query="SELECT * FROM `crimetable` where `crime_id`='".$this->id."'";
+        $result= mysqli_query($this->conn,$query);
+        if ($result) {
+            $row = mysqli_fetch_object($result);
+            return $row;
+
+        }
+    }
+    public function update()
+    {
+        $query = "UPDATE `crimetable` SET `crime_type` = '" . $this->crimeType . "' WHERE `crime_id` =" . $this->id;
+
+        $result = mysqli_query($this->conn, $query);
+        if ($result) {
+            Message::message("<div class=\"alert alert-success\">
+  <strong>Success!</strong> Sucessfully Updated.
+</div>");
+            Utility::redirect('crimeall.php');
+
+        } else {
+            Message::message("<div class=\"alert alert-danger\">
+  <strong>Error!</strong> Data has not been stored successfully.
+    </div>");
+            Utility::redirect('crimeall.php');
+        }
+    }
+    public function deleteCrimeType(){
+        $query="Delete from `criminaldb`.`crimetable` where `crimetable`.`crime_id`='".$this->id."'";
+
+        $result=mysqli_query($this->conn,$query);
+        if($result){
+            Message::message("<div class=\"alert alert-info\">
+  <strong>Updated!</strong> Data has been deleted successfully.
+</div>");
+            Utility::redirect('crimeall.php');
+
+        }
+        else {
+            Message::message("<div class=\"alert alert-danger\">
+  <strong>Error!</strong> Data has not been deleted.
+</div>");
+            Utility::redirect('crimeall.php');
+
+        }
     }
 
 }

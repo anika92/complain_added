@@ -41,17 +41,13 @@ $_POST['name']="Bitm";
                     <a href="views/missing_person/missing_index.php">Missing Person</a>
                 </li>
                 <li>
-                    <a href="#">Most Wanted</a>
+                    <a href="views/criminal_info/mostwanted_index.php">Most Wanted</a>
+                </li>
+                <li>
+                    <a href="views/criminal_info/criminalAll.php">View All Criminals</a>
                 </li>
 
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Register As <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="views/police/regPolice.php">Police</a></li>
-                        <li><a href="views/user/regUser.php">Public</a></li>
 
-                    </ul>
-                </li>
             </ul>
 
         </div>
@@ -82,8 +78,8 @@ $_POST['name']="Bitm";
             <!-- First Featurette -->
 
             <img class="featurette-image img-circle img-responsive pull-right" src="Resources/images/content.jpg">
-            <h2 class="featurette-heading">This First Heading
-                <span class="text-muted">Will Catch Your Eye</span>
+            <h2><span>Criminals should be punished,<br> not fed pastries.</span>
+
             </h2>
             <p class="lead">Welcome To Criminal Database Management System. It is designed to Make people aware from crime. Here People can make online complaints to the Police Station. In order to do so first they have to register themselves on the system.
                 User can also see the list of Most Wanted Criminals in various area through this web application. Here you can also see the detail of Miising person so you can contact to the person if you find such persons.</p>
@@ -111,7 +107,8 @@ $_POST['name']="Bitm";
 
 
 
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-default">Submit</button><br><br>
+                <a href="views/user/regUser.php"> <input type="button" class="btn btn-success" value="Register" /></a>
 
                 <!-- <label><span class="style1">Username</span></label>
                  <input type="text" value="" name="username" size="10" class="input_field" title="username" /><br>

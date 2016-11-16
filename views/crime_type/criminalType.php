@@ -12,7 +12,7 @@
 <!-- Start Formoid form-->
 <link rel="stylesheet" href="../../Resources/formoid_files/formoid1/formoid-solid-blue.css" type="text/css" />
 <script type="text/javascript" src="../../Resources/formoid_files/formoid1/jquery.min.js"></script>
-<form class="formoid-solid-blue" style="background-color:#FFFFFF;font-size:14px;font-family:'Roboto',Arial,Helvetica,sans-serif;color:#34495E;max-width:480px;min-width:150px" method="post" action="store.php"><div class="title"><h2>Criminal Table</h2></div>
+<form class="formoid-solid-blue" style="background-color:#FFFFFF;font-size:14px;font-family:'Roboto',Arial,Helvetica,sans-serif;color:#34495E;max-width:480px;min-width:150px" method="post" action="storetype.php"><div class="title"><h2>Criminal Table</h2></div>
 	<div class="element-input">
 		<label class="title">
 			<span class="required">*</span></label>

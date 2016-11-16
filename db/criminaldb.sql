@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 28, 2016 at 10:16 AM
+-- Generation Time: Aug 01, 2016 at 12:07 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.5.35
 
@@ -38,9 +38,8 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `name`, `email`, `password`) VALUES
-(1, '', 'admin@mail.com', '81dc9bdb52d04dc20036dbd8313ed055	'),
-(2, 'admin2', 'admin@admin.com', '21232f297a57a5a743894a0e4a801fc3'),
-(3, 'admin2', 'admin@admin.com', '21232f297a57a5a743894a0e4a801fc3');
+(7, 'admin', 'admin@mail.com', '81dc9bdb52d04dc20036dbd8313ed055'),
+(8, 'new police', 'new@new.com', '81dc9bdb52d04dc20036dbd8313ed055');
 
 -- --------------------------------------------------------
 
@@ -59,7 +58,10 @@ CREATE TABLE `crimetable` (
 
 INSERT INTO `crimetable` (`crime_id`, `crime_type`) VALUES
 (1, 'robbary'),
-(2, 'sabotage');
+(2, 'sabotage'),
+(3, 'Burglary'),
+(4, 'Murder'),
+(7, 'attempt to murder');
 
 -- --------------------------------------------------------
 
@@ -77,7 +79,9 @@ CREATE TABLE `criminaltable` (
 --
 
 INSERT INTO `criminaltable` (`c_t_id`, `c_t_type`) VALUES
-(1, 'most wanted');
+(1, 'most wanted'),
+(2, 'thief'),
+(3, 'wanted');
 
 -- --------------------------------------------------------
 
@@ -95,6 +99,8 @@ CREATE TABLE `criminal_info` (
   `description` varchar(255) NOT NULL,
   `gender` varchar(20) NOT NULL,
   `address` varchar(255) NOT NULL,
+  `station_id` int(11) NOT NULL,
+  `release_date` date NOT NULL,
   `image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -102,13 +108,9 @@ CREATE TABLE `criminal_info` (
 -- Dumping data for table `criminal_info`
 --
 
-INSERT INTO `criminal_info` (`c_id`, `name`, `crime_type`, `c_t_type`, `age`, `height`, `description`, `gender`, `address`, `image`) VALUES
-(1, 'Hamid', 'robbery,sabotage', 'most wanted', 22, '22', 'asfsdf', 'Male', 'adfsf', 'afsadf'),
-(2, 'Nowshad', 'robbary,sabotage', 'most wanted', 0, '', 'asdfsadf', 'Male', '', 'dedsec11.png'),
-(3, 'rony', 'robbary', 'most wanted', 22, '2', 'afasf', 'Male', 'asdfsaf', 'asfsadf'),
-(4, 'rony', 'robbary', 'most wanted', 22, '2', 'afasf', 'Male', 'asdfsaf', 'asfsadf'),
-(5, 'jkhkjllk', 'robbary,sabotage', 'most wanted', 12, '2', 'asdfsadf', 'Male', 'asdfsf', 'dedsec11.png'),
-(6, 'jkhkjllk', 'robbary,sabotage', 'most wanted', 12, '2', 'asdfsadf', 'Male', 'asdfsf', 'dedsec11.png');
+INSERT INTO `criminal_info` (`c_id`, `name`, `crime_type`, `c_t_type`, `age`, `height`, `description`, `gender`, `address`, `station_id`, `release_date`, `image`) VALUES
+(25, 'Nowshad', '', 'most wanted', 23, '5.10', 'vala chor', 'Male', 'hathazari', 4, '0000-00-00', '1470037462avatar5.png'),
+(26, 'Anika', 'Murder', 'most wanted', 23, '5.5', 'sarod k marseee', 'Male', 'love lane', 3, '0000-00-00', '1470037733avatar3.png');
 
 -- --------------------------------------------------------
 
@@ -125,8 +127,10 @@ CREATE TABLE `missingtable` (
   `gender` varchar(20) NOT NULL,
   `image` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
+  `station_id` int(11) NOT NULL,
+  `contact` varchar(255) NOT NULL,
   `date` date NOT NULL,
-  `status` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL DEFAULT 'Still Missing',
   `added_by` varchar(255) NOT NULL,
   `updated_by` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -135,16 +139,10 @@ CREATE TABLE `missingtable` (
 -- Dumping data for table `missingtable`
 --
 
-INSERT INTO `missingtable` (`missing_id`, `missing_name`, `description`, `age`, `height`, `gender`, `image`, `address`, `date`, `status`, `added_by`, `updated_by`) VALUES
-(3, 'Rony', 'Sera', 25, '5', 'Male', 'terms.png', 'hathazari', '2016-07-05', 'Still Missing', '', ''),
-(4, 'Abul', 'Sera', 25, '5', 'Male', 'terms.png', 'hathazari', '2016-07-05', 'Still Missing', '', ''),
-(5, 'Abul', 'Sera', 25, '5', 'Male', 'terms.png', 'hathazari', '2016-07-05', 'Still Missing', '', ''),
-(6, 'Abul', 'Sera', 25, '5', 'Male', '1469444431terms.png', 'hathazari', '2016-07-05', 'Still Missing', '', ''),
-(7, 'Abul', 'Sera', 25, '5', 'Male', '1469444527terms.png', 'hathazari', '2016-07-05', 'Still Missing', '', ''),
-(8, 'Abul', 'Sera', 25, '5', 'Male', '1469444582terms.png', 'hathazari', '2016-07-05', 'Still Missing', '', ''),
-(9, 'Abul', 'Sera', 25, '5', 'Male', '1469444663terms.png', 'hathazari', '2016-07-05', 'Still Missing', '', ''),
-(10, 'Abul', 'Sera', 25, '5', 'Male', '1469444716terms.png', 'hathazari', '2016-07-05', 'Still Missing', '', ''),
-(11, 'Abul', 'Sera', 25, '5', 'Male', '1469444780terms.png', 'hathazari', '2016-07-05', 'Still Missing', '', '');
+INSERT INTO `missingtable` (`missing_id`, `missing_name`, `description`, `age`, `height`, `gender`, `image`, `address`, `station_id`, `contact`, `date`, `status`, `added_by`, `updated_by`) VALUES
+(24, 'MMR', 'koi ek din dore', 23, '5.5', 'Male', '1470038170avatar04.png', 'gec', 4, '233434', '2016-07-22', 'Found', '', ''),
+(25, 'Rubel', 'Nikhoj', 12, '4.5', 'Male', '1470039543avatar.png', 'afdsf', 1, '12354', '2016-06-28', 'Still Missing', '', ''),
+(26, 'Abdul', 'harai gese', 23, '4', 'Male', '1470041406avatar.png', 'hathazari', 1, '01928374', '2016-07-05', 'Still Missing', '', '');
 
 -- --------------------------------------------------------
 
@@ -158,18 +156,23 @@ CREATE TABLE `police_info` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `police_code` varchar(255) NOT NULL,
-  `nid` varchar(255) NOT NULL
+  `nid` varchar(255) NOT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `police_info`
 --
 
-INSERT INTO `police_info` (`p_id`, `name`, `email`, `password`, `police_code`, `nid`) VALUES
-(3, 'Hamid', 'a@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'nadf', '34343434'),
-(4, 'Hamid', 'a@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'nadf', '34343434'),
-(5, 'Hamid', 'a@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'nadf', '34343434'),
-(6, 'Hamid', 'a@gmail.com', 'b59c67bf196a4758191e42f76670ceba', 'nadf', '34343434');
+INSERT INTO `police_info` (`p_id`, `name`, `email`, `password`, `police_code`, `nid`, `status`) VALUES
+(3, 'Hamid', 'a@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'nadf', '34343434', 'Active'),
+(4, 'Hamid', 'a@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'nadf', '34343434', 'Active'),
+(5, 'Hamid', 'a@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'nadf', '34343434', 'Active'),
+(8, 'karim', 'karim@k.com', '81dc9bdb52d04dc20036dbd8313ed055', '1111', '123', 'Active'),
+(9, 'Nowshad', '1@1.com', '81dc9bdb52d04dc20036dbd8313ed055', 'asdfs', '23232323', 'Active'),
+(10, 'Nowshad', 's@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', '11212', '12121212', 'Active'),
+(11, 'Fahad', 's@gma.com', '81dc9bdb52d04dc20036dbd8313ed055', '1234', '1234', 'Active'),
+(12, 'Rubel', '1@gm.com', '81dc9bdb52d04dc20036dbd8313ed055', '12121', 'sdfasdfsadf', 'Active');
 
 -- --------------------------------------------------------
 
@@ -195,7 +198,35 @@ CREATE TABLE `police_profile` (
 --
 
 INSERT INTO `police_profile` (`id`, `p_id`, `designation`, `thana`, `city`, `address`, `postal`, `gender`, `phone`, `image`) VALUES
-(3, 6, '', '', '', '', '', '', 0, '');
+(11, 8, 'oc', 'Ramna', 'Chittagong', 'fdsdgf', '4444', 'Male', 123454, '1469903386seitqp3gl1q7all5ndbdt1ch00263374.JPG-final.jpg'),
+(12, 9, '', '', '', '', '', '', 0, 'avatar5.png'),
+(13, 10, '', '', '', '', '', '', 0, 'avater5.png'),
+(14, 11, '', '', '', '', '', '', 0, 'avatar5.png'),
+(15, 12, 'OC', 'Halishohor', 'Chittagong', 'asdfsadf', '1234', 'Male', 212212, 'avatar5.png');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `police_station`
+--
+
+CREATE TABLE `police_station` (
+  `station_id` int(11) NOT NULL,
+  `station_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `police_station`
+--
+
+INSERT INTO `police_station` (`station_id`, `station_name`) VALUES
+(1, 'Hathazari'),
+(2, 'Kotowali'),
+(3, 'Halishohor'),
+(4, 'Panchlaish'),
+(5, 'Chandgao'),
+(6, 'Bayezid'),
+(7, 'Khulshi');
 
 -- --------------------------------------------------------
 
@@ -216,12 +247,8 @@ CREATE TABLE `user_info` (
 --
 
 INSERT INTO `user_info` (`user_id`, `name`, `email`, `nid`, `password`) VALUES
-(1, 'rony', 'a@gsf.com', 34324234, 'f29deaae8f77d04e811cea289e60fedd'),
-(2, 'demouser', 'user@mail.com', 11212, 'ee11cbb19052e40b07aac0ca060c23ee'),
-(3, 'k', 'k@mail.com', 1111, '81dc9bdb52d04dc20036dbd8313ed055'),
-(4, 'hello', 'h@gmail.com', 2323232, 'b59c67bf196a4758191e42f76670ceba'),
-(5, 'hello', 'h@gmail.com', 2323232, 'b59c67bf196a4758191e42f76670ceba'),
-(6, 'hello', 'h@gmail.com', 2323232, '81dc9bdb52d04dc20036dbd8313ed055');
+(1, 'Nowshad', 'new@new.com', 1234, '827ccb0eea8a706c4c34a16891f84e7b'),
+(2, 'rony', 'rony@gmail.com', 123456, 'a6296f234a2ff4800237a96a049ca58c');
 
 -- --------------------------------------------------------
 
@@ -246,8 +273,8 @@ CREATE TABLE `user_profile` (
 --
 
 INSERT INTO `user_profile` (`id`, `user_id`, `address`, `city`, `thana`, `postal`, `gender`, `phone`, `image`) VALUES
-(1, 1, 'sdfsdfdsf', 'Dhaka', 'Double Muring', 99, 'Female', 2147483647, 'ttt.jpg'),
-(2, 6, '', '', '', 0, '', 0, '');
+(1, 1, '', '', '', 0, '', 0, 'avatar04.png'),
+(2, 2, '', '', '', 0, '', 0, 'avatar04.png');
 
 --
 -- Indexes for dumped tables
@@ -275,7 +302,8 @@ ALTER TABLE `criminaltable`
 -- Indexes for table `criminal_info`
 --
 ALTER TABLE `criminal_info`
-  ADD PRIMARY KEY (`c_id`);
+  ADD PRIMARY KEY (`c_id`),
+  ADD KEY `station_id` (`station_id`);
 
 --
 -- Indexes for table `missingtable`
@@ -295,6 +323,12 @@ ALTER TABLE `police_info`
 ALTER TABLE `police_profile`
   ADD PRIMARY KEY (`id`),
   ADD KEY `p_id` (`p_id`);
+
+--
+-- Indexes for table `police_station`
+--
+ALTER TABLE `police_station`
+  ADD PRIMARY KEY (`station_id`);
 
 --
 -- Indexes for table `user_info`
@@ -317,42 +351,47 @@ ALTER TABLE `user_profile`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `crimetable`
 --
 ALTER TABLE `crimetable`
-  MODIFY `crime_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `crime_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `criminaltable`
 --
 ALTER TABLE `criminaltable`
-  MODIFY `c_t_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `c_t_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `criminal_info`
 --
 ALTER TABLE `criminal_info`
-  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `missingtable`
 --
 ALTER TABLE `missingtable`
-  MODIFY `missing_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `missing_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `police_info`
 --
 ALTER TABLE `police_info`
-  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `police_profile`
 --
 ALTER TABLE `police_profile`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+--
+-- AUTO_INCREMENT for table `police_station`
+--
+ALTER TABLE `police_station`
+  MODIFY `station_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `user_info`
 --
 ALTER TABLE `user_info`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `user_profile`
 --
@@ -366,13 +405,13 @@ ALTER TABLE `user_profile`
 -- Constraints for table `police_profile`
 --
 ALTER TABLE `police_profile`
-  ADD CONSTRAINT `police_profile_ibfk_1` FOREIGN KEY (`p_id`) REFERENCES `police_info` (`p_id`);
+  ADD CONSTRAINT `police_profile_ibfk_1` FOREIGN KEY (`p_id`) REFERENCES `police_info` (`p_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_profile`
 --
 ALTER TABLE `user_profile`
-  ADD CONSTRAINT `user_profile_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_info` (`user_id`);
+  ADD CONSTRAINT `user_profile_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_info` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

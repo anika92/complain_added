@@ -1,6 +1,12 @@
 <?php
 session_start();
 include_once('../../vendor/autoload.php');
+use App\Controller\MissingPerson;
+use App\Message\Message;
+
+$mp = new MissingPerson();
+$singleView = $mp->prepare($_GET)->view();
+
 //use App\Message\Message;
 ?>
 
@@ -37,71 +43,114 @@ include_once('../../vendor/autoload.php');
                     <a href="../../index.php" >Home</a>
                 </li>
                 <li>
-                    <a href="#about">Missing Person</a>
+                    <a href="missing_index.php">Missing Person</a>
                 </li>
                 <li>
-                    <a href="#services">Most Wanted</a>
+                    <a href="../criminal_info/mostwanted_index.php">Most Wanted</a>
                 </li>
-                <li>
-                    <a href="#contact">Contact Us</a>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Register As <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="views/police/regPolice.php">Police</a></li>
-                        <li><a href="views/user/regUser.php">Public</a></li>
 
-                    </ul>
-                </li>
+                <li><a href="../user/regUser.php">Public Register</a></li>
             </ul>
-            <ul class="dropdown-menu">Register As
-                <li><a href="#">HTML</a></li>
-                <li><a href="#">CSS</a></li>
-                <li><a href="#">JavaScript</a></li>
-            </ul>
+
         </div>
         <!-- /.navbar-collapse -->
-
-        <!-- /.container -->
+    </div>
+    <!-- /.container -->
 </nav>
+
+<!-- Full Width Image Header -->
+
+<!-- Navigation -->
+<!--<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+
+<!-- Collect the nav links, forms, and other content for toggling -->
+
+<!-- /.navbar-collapse -->
+<!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav">
+        <li class="active">
+            <a href="../../index.php" >Home</a>
+        </li>
+        <li>
+            <a href="#about">Missing Person</a>
+        </li>
+        <li>
+            <a href="#services">Most Wanted</a>
+        </li>
+        <li>
+            <a href="#contact">Contact Us</a>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Register As <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="views/police/regPolice.php">Police</a></li>
+                <li><a href="views/user/regUser.php">Public</a></li>
+
+            </ul>
+        </li>
+    </ul>
+    <ul class="dropdown-menu">Register As
+        <li><a href="#">HTML</a></li>
+        <li><a href="#">CSS</a></li>
+        <li><a href="#">JavaScript</a></li>
+    </ul>
+</div></nav>
+<!-- /.container -->
+
 
 <!-- Full Width Image Header -->
 <br>
 
 <div class="view">
-<div class="row" >
+    <div class="row" >
 
-    <div class="col-lg-12">
-        <h1 class="page-header" align="center">View Individual Missing Person</h1>
+        <div class="col-lg-12">
+            <h1 class="page-header" align="center">View Individual Missing Person</h1>
+        </div>
+        <div id="message">
+            <?php
+            if((array_key_exists('message',$_SESSION))&& !empty($_SESSION['message'])) {
+                echo Message::message();
+            }
+            ?>
+        </div>
+
+        <div class="table-bordered" style="border: solid gray">
+            <br>
+            <div class="thumbnail">
+                <img class="img-responsive" src="../../Resources/images/missing_persons/<?php echo $singleView->image?>" alt="" height="300px" width="400px">
+            </div>
+            <h3><?php echo $singleView->missing_name ?></h3>
+
+            <table class="table table-striped">
+
+                <tbody>
+
+                <tr><td>Name:</td> <td><?php echo $singleView->missing_name?></td></tr>
+                <tr><td>Description:</td> <td><?php echo $singleView->description?></td></tr>
+                <tr><td>Age:</td> <td><?php echo $singleView->age?></td></tr>
+                <tr><td>Height:</td> <td><?php echo $singleView->height?></td></tr>
+                <tr><td>Gender:</td> <td><?php echo $singleView->gender?></td></tr>
+                <tr><td>Station:</td><?php echo $singleView->station_name ?></tr>
+                <tr><td>Gender:</td> <td><?php echo $singleView->address?></td></tr>
+                <tr><td>Date:</td> <td><?php echo $singleView->date?></td></tr>
+                <tr><td>Status:</td> <td><?php echo $singleView->status?></td></tr>
+                <!--<tr><td>Added by:</td> <td>Police</td></tr>
+                <tr><td>Updated by:</td> <td>Police</td></tr>-->
+
+                </tbody>
+            </table>
+            </br>
+            <div class="thumbnail text-center">
+               <!-- <a href="missing_edit.php?id=<?php /*echo $singleView-> missing_id */?>" class="btn btn-primary btn-lg" role="button">Update</a>&nbsp
+                --><a href="missing_index.php" class="btn btn-primary btn-lg" role="button">Back</a>
+            </div>
+        </div>
+
+
     </div>
-
-    <div class="" style="border: solid gray">
-        <br>
-        <a class="thumbnail" href="#">
-            <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-        </a>
-        <h3>Single Person</h3>
-
-        <table class="table table-striped">
-
-            <tbody>
-
-            <tr><td>Name:</td> <td>Missing person</td></tr>
-            <tr><td>Age:</td> <td>30</td></tr>
-            <tr><td>Gender:</td> <td>Male</td></tr>
-            <tr><td>Height:</td> <td>0"</td></tr>
-            <tr><td>Date:</td> <td>12-12-12</td></tr>
-            <tr><td>Added by:</td> <td>Police</td></tr>
-            <tr><td>Updated by:</td> <td>Police</td></tr>
-            <tr><td>Description:</td> <td>User can also see the list of Most Wanted Criminals in various area through this web application. Here you can also see the detail of Miising person so you can contact to the person if you find such persons</td></tr>
-            <tr><td>Status:</td> <td>Still Missing</td></tr>
-
-            </tbody>
-        </table>
-    </div>
-
-
-</div>
 </div>
 </div>
 

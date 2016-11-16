@@ -1,6 +1,12 @@
 <?php
 session_start();
 include_once('../../vendor/autoload.php');
+use App\Controller\MissingPerson;
+use App\Message\Message;
+
+$allView = new MissingPerson();
+$allData=$allView->index();
+
 //use App\Message\Message;
 ?>
 
@@ -24,7 +30,6 @@ include_once('../../vendor/autoload.php');
 </head>
 
 <body>
-
 <!-- Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
@@ -34,36 +39,26 @@ include_once('../../vendor/autoload.php');
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="active">
-                    <a href="#about" >Home</a>
+                    <a href="../../index.php" >Home</a>
                 </li>
                 <li>
-                    <a href="#about">Missing Person</a>
+                    <a href="missing_index.php">Missing Person</a>
                 </li>
                 <li>
-                    <a href="#services">Most Wanted</a>
+                    <a href="../criminal_info/mostwanted_index.php">Most Wanted</a>
                 </li>
-                <li>
-                    <a href="#contact">Contact Us</a>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Register As <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="views/police/regPolice.php">Police</a></li>
-                        <li><a href="views/user/regUser.php">Public</a></li>
 
-                    </ul>
-                </li>
+                <li><a href="../user/regUser.php">Public Register</a></li>
             </ul>
-            <ul class="dropdown-menu">Register As
-                <li><a href="#">HTML</a></li>
-                <li><a href="#">CSS</a></li>
-                <li><a href="#">JavaScript</a></li>
-            </ul>
+
         </div>
         <!-- /.navbar-collapse -->
-
+    </div>
     <!-- /.container -->
 </nav>
+
+<!-- Full Width Image Header -->
+
 
 <!-- Full Width Image Header -->
 <header class="header-image">
@@ -74,93 +69,44 @@ include_once('../../vendor/autoload.php');
         </div>
     </div>
 </header></br>
-    <div class="container view">
-        <div class="row">
-
+<div class="container view">
     <div class="row">
 
-    <div class="col-lg-12">
-        <h1 class="page-header" align="center">Missing Person's Gellery</h1>
-    </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header" align="center">Missing Person's Gellery</h1>
+            </div>
+            <div id="message">
+                <?php
+                if((array_key_exists('message',$_SESSION))&& !empty($_SESSION['message'])) {
+                    echo Message::message();
+                }
+                ?>
+            </div>
 
-    <div class="col-lg-3 col-md-3 col-xs-6 thumb" >
-        <a class="thumbnail" href="#">
-            <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-        </a>
-        <h3>Name: Missing person</h3>
+            <?php
+            foreach($allData as $view){
+                /*var_dump($view);
+                die();
+                */?>
 
-        <h3>Date:12-12-12</h3>
-        <a href="missing_view.php" style="float: right" class="btn btn-info">Details</a>
 
-    </div>
+                <div class="col-lg-3 col-md-3 col-xs-6 col-lg-4 thumbnail" >
+                    <div class="center-block" style="height: 100px; width:100px;" >
+                        <img class="img-responsive" src="../../Resources/images/missing_persons/<?php echo $view->image?>" alt="" height="auto" width="auto">
+                    </div><br>
+                    <h3>Name: <?php echo $view->missing_name ?></h3>
+                    <h3>Age: <?php echo $view->age ?></h3>
+                    <h3>Height: <?php echo $view->height ?></h3>
 
-        <div class="col-lg-3 col-md-3 col-xs-6 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-            <h3>Name: Missing person</h3>
-            <h3>Date:12-12-12</h3>
+                    <h3>Date: <?php echo $view->date ?></h3>
+                    <a href="missing_view.php?id=<?php echo $view-> missing_id ?>" class="btn btn-primary" role="button">Details</a>
 
-            <a href="missing_view.php" style="float: right" class="btn btn-info">Details</a>
+                </div>
+            <?php } ?>
 
-            <h3></h3>
-        </div>
-        <div class="col-lg-3 col-md-3 col-xs-6 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-            <h3>Name: Missing person</h3>
-            <h3>Date:12-12-12</h3>
-
-            <a href="missing_view.php" style="float: right" class="btn btn-info">Details</a>
-        </div>
-        <div class="col-lg-3 col-md-3 col-xs-6 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-            <h3>Name: Missing person</h3>
-            <h3>Date:12-12-12</h3>
-
-            <a href="missing_view.php" style="float: right" class="btn btn-info">Details</a>
-        </div>
-        <div class="col-lg-3 col-md-3 col-xs-6 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-            <h3>Name: Missing person</h3>
-            <h3>Date:12-12-12</h3>
-
-            <a href="missing_view.php" style="float: right" class="btn btn-info">Details</a>
-        </div>
-        <div class="col-lg-3 col-md-3 col-xs-6 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-            <h3>Name: Missing person</h3>
-            <h3>Date:12-12-12</h3>
-
-            <a href="missing_view.php" style="float: right" class="btn btn-info">Details</a>
-        </div>
-        <div class="col-lg-3 col-md-3 col-xs-6 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-            <h3>Name: Missing person</h3>
-            <h3>Date:12-12-12</h3>
-
-            <a href="missing_view.php" style="float: right" class="btn btn-info">Details</a>
-        </div>
-        <div class="col-lg-3 col-md-3 col-xs-6 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-            <h3>Name: Missing person</h3>
-            <h3>Date:12-12-12</h3>
-
-            <a href="missing_view.php" style="float: right" class="btn btn-info">Details</a>
         </div>
     </div>
-</div>
 
 
 
@@ -171,11 +117,11 @@ include_once('../../vendor/autoload.php');
 </div>
 
 
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
 
 </body>
 

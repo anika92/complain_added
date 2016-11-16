@@ -31,18 +31,19 @@ class CriminalType extends DB
     public function store()
     {
         $query = "INSERT INTO `criminaldb`.`criminaltable` ( `c_t_type`) VALUES ('{$this->criminalType}');";
+
         $result = mysqli_query($this->conn, $query);
         if ($result) {
             Message::message("<div class=\"alert alert-success\">
-  <strong>Success!</strong> Sucessfully Registered, you can log in now.
+  <strong>Success!</strong> Sucessfully Saved
 </div>");
-            Utility::redirect('../../index.php');
+            Utility::redirect('crime.php');
 
         } else {
             Message::message("<div class=\"alert alert-danger\">
   <strong>Error!</strong> Data has not been stored successfully.
     </div>");
-            Utility::redirect('../../index.php');
+            Utility::redirect('crime.php');
 
         }
     }
